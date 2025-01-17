@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
 from .models import UserProfile  # Import the UserProfile model
+from django.contrib.auth.decorators import login_required
 
 def login_view(request):
     if request.method == 'POST':
@@ -21,6 +22,8 @@ def signup_view(request):
     if request.method == 'POST':
         username = request.POST['username']
         email = request.POST['email']
+        first_name = request.POST['first_name']  # Added
+        last_name = request.POST['last_name']  # Added
         password1 = request.POST['password1']
         password2 = request.POST['password2']
         contact = request.POST['contact']
@@ -41,18 +44,48 @@ def signup_view(request):
             return redirect('signup')
 
         # Create the user
-        user = User.objects.create_user(username=username, email=email, password=password1)
+        user = User.objects.create_user(
+            username=username,
+            email=email,
+            password=password1,
+            first_name=first_name,  # Added
+            last_name=last_name,  # Added
+        )
 
-        # Update the user's profile
-        user.userprofile.contact = contact
-        user.userprofile.address = address
-        user.userprofile.save()
+        # Create and update the user's profile
+        UserProfile.objects.create(user=user, contact=contact, address=address)
 
         messages.success(request, 'Signup successful! Please log in.')
         return redirect('login')
 
     return render(request, 'signup.html')
 
+
+@login_required
 def logout_view(request):
     logout(request)
     return redirect('home')
+
+@login_required
+def profile_view(request):
+    if request.method == 'POST':
+        # Update user details
+        user = request.user
+        user.first_name = request.POST.get('first_name', user.first_name)
+        user.last_name = request.POST.get('last_name', user.last_name)
+        user.email = request.POST.get('email', user.email)
+        user.save()
+
+        # Update user profile details
+        profile = user.userprofile
+        profile.contact = request.POST.get('contact', profile.contact)
+        profile.address = request.POST.get('address', profile.address)
+        profile.save()
+
+        messages.success(request, 'Your profile has been updated successfully!')
+        return redirect('profile')
+
+    return render(request, 'profile.html', {
+        'user': request.user,
+        'profile': request.user.userprofile,
+    })

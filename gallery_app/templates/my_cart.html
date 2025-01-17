@@ -20,8 +20,8 @@
             <tr>
                 <td>{{ item.painting.name }}</td>
                 <td>{{ item.quantity }}</td>
-                <td>${{ item.painting.price }}</td>
-                <td>${{ item.painting.price|floatformat:2 }}</td>
+                <td>Rs.{{ item.painting.price }}</td>
+                <td>Rs.{{ item.painting.price|floatformat:2 }}</td>
                 <td>
                     <a href="{% url 'remove_from_cart' item.id %}" class="btn btn-danger btn-sm">
                         Remove
@@ -34,8 +34,22 @@
 
     <h3>Total Price: Rs.{{ total_price|floatformat:2 }}</h3>
 
-    <a href="{% url 'clear_cart' %}" class="btn btn-warning">Clear Cart</a>
-    <a href="checkout" class="btn btn-success">Proceed to Checkout</a>
+        <form action="https://rc-epay.esewa.com.np/api/epay/main/v2/form" method="POST">
+            <input type="hidden" id="amount" name="amount" value={{total_price}} required>
+            <input type="hidden" id="tax_amount" name="tax_amount" value ="0" required>
+            <input type="hidden" id="total_amount" name="total_amount" value={{total_price}} required>
+            <input type="hidden" id="transaction_uuid" name="transaction_uuid" value={{uuid}} required>
+            <input type="hidden" id="product_code" name="product_code" value ="EPAYTEST" required>
+            <input type="hidden" id="product_service_charge" name="product_service_charge" value="0" required>
+            <input type="hidden" id="product_delivery_charge" name="product_delivery_charge" value="0" required>
+            <input type="hidden" id="success_url" name="success_url" value="http://localhost:8000/payment_success" required>
+            <input type="hidden" id="failure_url" name="failure_url" value="http://localhost:8000/my_cart" required>
+            <input type="hidden" id="signed_field_names" name="signed_field_names" value="total_amount,transaction_uuid,product_code" required>
+            <input type="hidden" id="signature" name="signature" value={{signature}} required>
+            <button class="btn btn-success" type="submit">Pay with Esewa</button>
+        </form>
+
+        <a href="{% url 'clear_cart' %}" class="btn btn-warning my-2">Clear Cart</a>
     {% else %}
     <p>Your cart is empty.</p>
     {% endif %}

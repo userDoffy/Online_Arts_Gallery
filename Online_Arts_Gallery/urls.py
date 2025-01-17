@@ -23,7 +23,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("auth/",include("auth_app.urls")),
     path("",include("gallery_app.urls")),
-    path("payment/",include("payment_app.urls"))
 ]
 
 if settings.DEBUG:
