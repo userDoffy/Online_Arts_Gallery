@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Gallery - Online Art Gallery{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="text-center mb-4">Gallery</h1>
+    
+    {% for category, paintings in categories.items %}
+    <h2 class="mt-5">{{ category }} Paintings</h2>
+    <div class="row">
+        {% for painting in paintings %}
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100">
+                <img src="{{ painting.photo.url }}" class="card-img-top img-fluid" alt="{{ painting.name }}" style="max-height: 250px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ painting.name }}</h5>
+                    <p class="card-text">Canvas Size: {{ painting.canvas_size }}</p>
+                    {% if painting.faces %}
+                    <p class="card-text">Faces: {{ painting.faces }}</p>
+                    {% endif %}
+                    <h6 class="text-success fw-bold">Price: Rs.{{ painting.price }}</h6>
+                    <a href="{% url 'add_to_cart' painting.id %}" class="btn btn-success">Add to Cart</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-muted">No paintings available in this category.</p>
+        {% endfor %}
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
