@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">My Orders</h2>
+
+    {% if orders %}
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead class="table-primary">
+                <tr>
+                    <th>Order ID</th>
+                    <th>Painting</th>
+                    <th>Quantity</th>
+                    <th>Price (Rs.)</th>
+                    <th>Subtotal (Rs.)</th>
+                    <th>Order Date</th>
+                    <th>Payment Status</th>
+                    <th>Delivery Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td><strong>#{{ order.id }}</strong></td>
+                    <td>{{ order.painting.name }}</td>
+                    <td>{{ order.quantity }}</td>
+                    <td>{{ order.painting.price|floatformat:2 }}</td>
+                    <td>{{ order.painting.price|floatformat:2 }}</td>
+                    <td>{{ order.added_at|date:"d M Y, h:i A" }}</td>
+                    <td>
+                        {% if order.status == 'paid' %}
+                        <span class="badge bg-success">Paid</span>
+                        {% else %}
+                        <span class="badge bg-danger">Unpaid</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if order.delivery == 'completed' %}
+                        <span class="badge bg-success">Completed</span>
+                        {% else %}
+                        <span class="badge bg-warning text-dark">Pending</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="alert alert-info text-center mt-4">
+        <p>You have no orders yet.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

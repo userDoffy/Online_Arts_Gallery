@@ -3,16 +3,21 @@
 {% block title %}Gallery - Online Art Gallery{% endblock %}
 
 {% block content %}
-<div class="container py-5">
-    <h1 class="text-center mb-4">Gallery</h1>
+<div class="container py-3">
+    <h1 class="text-center mb-4 mt-2">Gallery</h1>
     
     {% for category, paintings in categories.items %}
     <h2 class="mt-5">{{ category }} Paintings</h2>
     <div class="row">
         {% for painting in paintings %}
         <div class="col-md-4 mb-4">
-            <div class="card shadow-sm h-100">
-                <img src="{{ painting.photo.url }}" class="card-img-top img-fluid" alt="{{ painting.name }}" style="max-height: 250px; object-fit: cover;">
+            <div class="card shadow-sm h-100 position-relative">
+                <a href="{{ painting.photo.url }}" target="_blank" class="image-wrapper">
+                    <img src="{{ painting.photo.url }}" class="card-img-top img-fluid" alt="{{ painting.name }}" style="max-height: 200px; object-fit: cover;">
+                    <div class="overlay">
+                        <span>Click to Preview</span>
+                    </div>
+                </a>
                 <div class="card-body">
                     <h5 class="card-title">{{ painting.name }}</h5>
                     <p class="card-text">Canvas Size: {{ painting.canvas_size }}</p>

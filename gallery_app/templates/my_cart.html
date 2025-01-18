@@ -1,57 +1,68 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container">
-    <h2>My Cart</h2>
+<div class="container my-5">
+    <h2 class="text-center mb-4">My Cart</h2>
 
     {% if cart_items %}
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Painting</th>
-                <th>Quantity</th>
-                <th>Price</th>
-                <th>Subtotal</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in cart_items %}
-            <tr>
-                <td>{{ item.painting.name }}</td>
-                <td>{{ item.quantity }}</td>
-                <td>Rs.{{ item.painting.price }}</td>
-                <td>Rs.{{ item.painting.price|floatformat:2 }}</td>
-                <td>
-                    <a href="{% url 'remove_from_cart' item.id %}" class="btn btn-danger btn-sm">
-                        Remove
-                    </a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark table-secondary">
+                <tr>
+                    <th class="text-center">Painting ID</th>
+                    <th class="text-center">Painting Name</th>
+                    <th class="text-center">Quantity</th>
+                    <th class="text-center">Price (Rs.)</th>
+                    <th class="text-center">Subtotal (Rs.)</th>
+                    <th class="text-center">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_items %}
+                <tr>
+                    <td class="align-middle text-center">{{ item.painting.id }}</td>
+                    <td class="align-middle text-center">{{ item.painting.name }}</td>
+                    <td class="align-middle text-center">{{ item.quantity }}</td>
+                    <td class="align-middle text-center">{{ item.painting.price|floatformat:2 }}</td>
+                    <td class="align-middle text-center">
+                        {{ item.painting.price|floatformat:2|floatformat:2 }}
+                    </td>
+                    <td class="align-middle text-center">
+                        <a href="{% url 'remove_from_cart' item.id %}" class="btn btn-danger btn-sm">
+                            Remove
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
-    <h3>Total Price: Rs.{{ total_price|floatformat:2 }}</h3>
+    <div class="d-flex justify-content-between align-items-center">
+        <h4 class="text-success">Total Price: Rs.{{ total_price|floatformat:2 }}</h4>
+        <a href="{% url 'clear_cart' %}" class="btn btn-warning">Clear Cart</a>
+    </div>
 
+    <div class="mt-4">
         <form action="https://rc-epay.esewa.com.np/api/epay/main/v2/form" method="POST">
-            <input type="hidden" id="amount" name="amount" value={{total_price}} required>
-            <input type="hidden" id="tax_amount" name="tax_amount" value ="0" required>
-            <input type="hidden" id="total_amount" name="total_amount" value={{total_price}} required>
-            <input type="hidden" id="transaction_uuid" name="transaction_uuid" value={{uuid}} required>
-            <input type="hidden" id="product_code" name="product_code" value ="EPAYTEST" required>
+            <input type="hidden" id="amount" name="amount" value="{{ total_price }}" required>
+            <input type="hidden" id="tax_amount" name="tax_amount" value="0" required>
+            <input type="hidden" id="total_amount" name="total_amount" value="{{ total_price }}" required>
+            <input type="hidden" id="transaction_uuid" name="transaction_uuid" value="{{ uuid }}" required>
+            <input type="hidden" id="product_code" name="product_code" value="EPAYTEST" required>
             <input type="hidden" id="product_service_charge" name="product_service_charge" value="0" required>
             <input type="hidden" id="product_delivery_charge" name="product_delivery_charge" value="0" required>
-            <input type="hidden" id="success_url" name="success_url" value="http://localhost:8000/payment_success" required>
+            <input type="hidden" id="success_url" name="success_url" value="http://localhost:8000/payment_success/?data={{ encoded_data }}" required>
             <input type="hidden" id="failure_url" name="failure_url" value="http://localhost:8000/my_cart" required>
             <input type="hidden" id="signed_field_names" name="signed_field_names" value="total_amount,transaction_uuid,product_code" required>
-            <input type="hidden" id="signature" name="signature" value={{signature}} required>
-            <button class="btn btn-success" type="submit">Pay with Esewa</button>
+            <input type="hidden" id="signature" name="signature" value="{{ signature }}" required>
+            <button class="btn btn-success btn-lg btn-block" type="submit">Pay with eSewa</button>
         </form>
-
-        <a href="{% url 'clear_cart' %}" class="btn btn-warning my-2">Clear Cart</a>
+    </div>
     {% else %}
-    <p>Your cart is empty.</p>
+    <div class="alert alert-info text-center mt-4">
+        <p>Your cart is empty.</p>
+    </div>
     {% endif %}
 </div>
 {% endblock %}

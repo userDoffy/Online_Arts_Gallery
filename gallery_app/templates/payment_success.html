@@ -3,9 +3,12 @@
 {% block title %}Payment - Online Art Gallery{% endblock %}
 
 {% block content %}
-<div class="text-center">
-    <p class="lead mt-4">
+<div class="container text-center mt-5">
+    <p class="lead">
         Thank you for shopping with us. Your order is on the way to your given address. We will contact you very soon.
     </p>
+    <a href="{% url 'my_orders' %}" class="btn btn-primary btn-lg mt-3">
+        Check Your Orders Here
+    </a>
 </div>
 {% endblock %}
