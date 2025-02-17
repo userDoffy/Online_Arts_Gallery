@@ -69,7 +69,7 @@
             <div class="col-md-4 mb-4">
                 <div class="card shadow-sm h-100 position-relative">
                     <a href="{{ painting.photo.url }}" target="_blank" class="image-wrapper position-relative d-block">
-                        <img src="{{ painting.photo.url }}" class="card-img-top img-fluid" alt="{{ painting.name }}" style="max-height: 200px; object-fit: cover;">
+                        <img src="{{ painting.photo.url }}" class="card-img-top img-fluid" alt="{{ painting.name }}" style="max-height: 200px; object-fit: cover;" loading="lazy">
                         <div class="overlay position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center text-white fw-bold" style="background: rgba(0, 0, 0, 0.5); opacity: 0; transition: opacity 0.3s;">
                             <span><i class="fa-solid fa-eye"></i> Click to Preview</span>
                         </div>
