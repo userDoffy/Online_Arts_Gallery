@@ -9,13 +9,16 @@ def login_view(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
+
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            messages.success(request, 'You have been logged in successfully! Please check out our Gallery.')
-            return redirect('gallery')  # Or redirect to a gallery page
+            messages.success(request, 'You have been logged in successfully!')
+            return redirect('gallery')  # Redirect normal users to gallery
+
         else:
             messages.error(request, 'Invalid username or password')
+
     return render(request, 'login.html')
 
 def signup_view(request):
@@ -61,12 +64,12 @@ def signup_view(request):
     return render(request, 'signup.html')
 
 
-@login_required
+@login_required(login_url='/auth/login/')
 def logout_view(request):
     logout(request)
     return redirect('home')
 
-@login_required
+@login_required(login_url='/auth/login/')
 def profile_view(request):
     if request.method == 'POST':
         # Update user details
@@ -89,3 +92,4 @@ def profile_view(request):
         'user': request.user,
         'profile': request.user.userprofile,
     })
+

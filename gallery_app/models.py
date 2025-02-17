@@ -45,13 +45,14 @@ class CartItem(models.Model):
     # Payment and delivery statuses
     STATUS_CHOICES = [
         ("unpaid", "Unpaid"),
+        ("unpaid(COD)", "Unpaid(COD)"),
         ("paid", "Paid"),
     ]
     DELIVERY_CHOICES = [
         ("pending", "Pending"),
         ("completed", "Completed"),
     ]
-    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default="unpaid")
+    status = models.CharField(max_length=12, choices=STATUS_CHOICES, default="unpaid")
     delivery = models.CharField(max_length=10, choices=DELIVERY_CHOICES, default="pending")
 
     # String representation

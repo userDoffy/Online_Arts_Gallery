@@ -2,24 +2,24 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h2 class="text-center mb-4">My Orders</h2>
+    <h2 class="text-center mb-4"><i class="fa-solid fa-box-open"></i> My Orders</h2>
 
     {% if orders %}
     <div class="table-responsive">
-        <table class="table table-bordered table-hover">
-            <thead class="table-primary">
+        <table class="table table-striped table-hover border shadow">
+            <thead class="table-primary text-center">
                 <tr>
-                    <th>Order ID</th>
-                    <th>Painting</th>
-                    <th>Quantity</th>
-                    <th>Price (Rs.)</th>
-                    <th>Subtotal (Rs.)</th>
-                    <th>Order Date</th>
-                    <th>Payment Status</th>
-                    <th>Delivery Status</th>
+                    <th><i class="fa-solid fa-hashtag"></i> Order ID</th>
+                    <th><i class="fa-solid fa-palette"></i> Painting</th>
+                    <th><i class="fa-solid fa-sort-numeric-up"></i> Quantity</th>
+                    <th><i class="fa-solid fa-tag"></i> Price (Rs.)</th>
+                    <th><i class="fa-solid fa-calculator"></i> Subtotal (Rs.)</th>
+                    <th><i class="fa-solid fa-calendar-day"></i> Order Date</th>
+                    <th><i class="fa-solid fa-wallet"></i> Payment Status</th>
+                    <th><i class="fa-solid fa-truck"></i> Delivery Status</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="text-center">
                 {% for order in orders %}
                 <tr>
                     <td><strong>#{{ order.id }}</strong></td>
@@ -30,16 +30,24 @@
                     <td>{{ order.added_at|date:"d M Y, h:i A" }}</td>
                     <td>
                         {% if order.status == 'paid' %}
-                        <span class="badge bg-success">Paid</span>
+                        <span class="badge bg-success">
+                            <i class="fa-solid fa-check-circle"></i> Paid
+                        </span>
                         {% else %}
-                        <span class="badge bg-danger">Unpaid</span>
+                        <span class="badge bg-danger">
+                            <i class="fa-solid fa-exclamation-circle"></i> Unpaid (COD)
+                        </span>
                         {% endif %}
                     </td>
                     <td>
                         {% if order.delivery == 'completed' %}
-                        <span class="badge bg-success">Completed</span>
+                        <span class="badge bg-success">
+                            <i class="fa-solid fa-box"></i> Completed
+                        </span>
                         {% else %}
-                        <span class="badge bg-warning text-dark">Pending</span>
+                        <span class="badge bg-warning text-dark">
+                            <i class="fa-solid fa-hourglass-half"></i> Pending
+                        </span>
                         {% endif %}
                     </td>
                 </tr>
@@ -49,7 +57,7 @@
     </div>
     {% else %}
     <div class="alert alert-info text-center mt-4">
-        <p>You have no orders yet.</p>
+        <p><i class="fa-solid fa-shopping-basket"></i> You have no orders yet.</p>
     </div>
     {% endif %}
 </div>

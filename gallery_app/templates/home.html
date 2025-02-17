@@ -3,57 +3,51 @@
 {% block title %}Home - Online Art Gallery{% endblock %}
 
 {% block content %}
-<div class="text-center py-2">
+<div class="text-center py-4">
     <h1 class="mt-3">Welcome to the Online Art Gallery</h1>
     <p class="lead mt-3">
-        Explore the beauty of art with our curated collections of paintings. 
-        Sign up to bookmark your favorite artworks, or log in to access your personalized gallery!
+        Discover, explore, and own breathtaking artworks from talented artists worldwide. 
+        Sign up to bookmark your favorite pieces or log in to access your personalized gallery!
     </p>
 </div>
 
-<!-- Slideshow Section -->
-<div id="artGalleryCarousel" class="carousel slide mt-5 mx-auto" style="max-width: 50%;" data-bs-ride="carousel">
-    <div class="carousel-indicators">
-        <button type="button" data-bs-target="#artGalleryCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-        <button type="button" data-bs-target="#artGalleryCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-        <button type="button" data-bs-target="#artGalleryCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-        <button type="button" data-bs-target="#artGalleryCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
-        <button type="button" data-bs-target="#artGalleryCarousel" data-bs-slide-to="4" aria-label="Slide 5"></button>
-    </div>
-    <div class="carousel-inner">
-        <div class="carousel-item active">
-            <img src="/media/slideshow/image1.jpg" class="d-block w-100 mx-auto fixed-size" alt="Art Image 1">
+<!-- Features Section -->
+<section class="container text-center mt-5">
+    <h2 class="mb-4">Why Choose Us?</h2>
+    <div class="row">
+        <div class="col-md-4">
+            <i class="bi bi-palette display-4 text-primary"></i>
+            <h4 class="mt-3">Curated Collection</h4>
+            <p>Hand-picked selection of unique and stunning artworks by professional artists.</p>
         </div>
-        <div class="carousel-item">
-            <img src="/media/slideshow/image2.jpg" class="d-block w-100 mx-auto fixed-size" alt="Art Image 2">
+        <div class="col-md-4">
+            <i class="bi bi-cart-check display-4 text-success"></i>
+            <h4 class="mt-3">Easy Purchase</h4>
+            <p>Secure online transactions and multiple payment options for a hassle-free experience.</p>
         </div>
-        <div class="carousel-item">
-            <img src="/media/slideshow/image3.jpg" class="d-block w-100 mx-auto fixed-size" alt="Art Image 3">
-        </div>
-        <div class="carousel-item">
-            <img src="/media/slideshow/image4.jpg" class="d-block w-100 mx-auto fixed-size" alt="Art Image 4">
-        </div>
-        <div class="carousel-item">
-            <img src="/media/slideshow/image5.jpg" class="d-block w-100 mx-auto fixed-size" alt="Art Image 5">
+        <div class="col-md-4">
+            <i class="bi bi-shield-lock display-4 text-danger"></i>
+            <h4 class="mt-3">Authenticity Guaranteed</h4>
+            <p>All paintings come with verified authenticity and artist details.</p>
         </div>
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#artGalleryCarousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#artGalleryCarousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-    </button>
-</div>
+</section>
 
-<!-- About Section -->
+<!-- Our Motive -->
+<section class="container text-center mt-5">
+    <h2 class="mb-4">Our Vision & Mission</h2>
+    <p class="px-3">
+        We believe in making art accessible to everyone. Our mission is to connect artists with art lovers,
+        providing a platform where creativity meets admiration. Whether you're a seasoned collector or new to the 
+        world of art, we help you find pieces that inspire.
+    </p>
+</section>
+
+<!-- Call to Action -->
 <div class="text-center mt-5">
-    <p class="mt-3 px-3">
-        Our Online Art Gallery is a haven for art enthusiasts, showcasing a wide array of breathtaking paintings 
-        ranging from landscapes to portraits. Each piece is a masterpiece that tells a story, evoking emotions and 
-        sparking inspiration. Discover the perfect artwork to beautify your space or gift a loved one.
-    </p>
-    <a href="{% url 'gallery' %}" class="btn btn-primary mt-3">Explore More</a>
+    <h3>Start Your Art Journey Today!</h3>
+    <p>Browse our collections and bring home the perfect artwork.</p>
+    <a href="{% url 'gallery' %}" class="btn btn-dark btn-lg">Explore Gallery</a>
 </div>
+
 {% endblock %}

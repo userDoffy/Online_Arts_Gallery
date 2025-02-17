@@ -3,36 +3,99 @@
 {% block title %}Gallery - Online Art Gallery{% endblock %}
 
 {% block content %}
-<div class="container py-3">
-    <h1 class="text-center mb-4 mt-2">Gallery</h1>
-    
-    {% for category, paintings in categories.items %}
-    <h2 class="mt-5">{{ category }} Paintings</h2>
-    <div class="row">
-        {% for painting in paintings %}
-        <div class="col-md-4 mb-4">
-            <div class="card shadow-sm h-100 position-relative">
-                <a href="{{ painting.photo.url }}" target="_blank" class="image-wrapper">
-                    <img src="{{ painting.photo.url }}" class="card-img-top img-fluid" alt="{{ painting.name }}" style="max-height: 200px; object-fit: cover;">
-                    <div class="overlay">
-                        <span>Click to Preview</span>
-                    </div>
-                </a>
-                <div class="card-body">
-                    <h5 class="card-title">{{ painting.name }}</h5>
-                    <p class="card-text">Canvas Size: {{ painting.canvas_size }}</p>
-                    {% if painting.faces %}
-                    <p class="card-text">Faces: {{ painting.faces }}</p>
-                    {% endif %}
-                    <h6 class="text-success fw-bold">Price: Rs.{{ painting.price }}</h6>
-                    <a href="{% url 'add_to_cart' painting.id %}" class="btn btn-success">Add to Cart</a>
+<div class="container">
+    <h1 class="text-center mb-4"><i class="fa-solid fa-palette"></i> Gallery</h1>
+
+    <!-- Search & Filter Form (Always Visible) -->
+    <form method="GET" class="mb-4 p-3 bg-light shadow-sm rounded">
+        <div class="row g-2 align-items-center">
+            <!-- Search Bar -->
+            <div class="col-md-3">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa-solid fa-search"></i></span>
+                    <input type="text" name="q" class="form-control" placeholder="Search by title" value="{{ query }}">
                 </div>
             </div>
+
+            <!-- Category Dropdown -->
+            <div class="col-md-2">
+                <select name="category" class="form-select">
+                    <option value="">All Categories</option>
+                    <option value="Bookmark" {% if category_filter == "Bookmark" %}selected{% endif %}>Bookmark</option>
+                    <option value="Landscape" {% if category_filter == "Landscape" %}selected{% endif %}>Landscape</option>
+                    <option value="Portrait" {% if category_filter == "Portrait" %}selected{% endif %}>Portrait</option>
+                    <option value="Sketch" {% if category_filter == "Sketch" %}selected{% endif %}>Sketch</option>
+                </select>
+            </div>
+
+            <!-- Price Range -->
+            <div class="col-md-2">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa-solid fa-dollar-sign"></i></span>
+                    <input type="number" name="price_min" class="form-control" placeholder="Min Price" value="{{ price_min }}">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa-solid fa-dollar-sign"></i></span>
+                    <input type="number" name="price_max" class="form-control" placeholder="Max Price" value="{{ price_max }}">
+                </div>
+            </div>
+
+            <!-- Released Date -->
+            <div class="col-md-2">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa-solid fa-calendar-day"></i></span>
+                    <input type="date" name="released_date" class="form-control" value="{{ released_date }}">
+                </div>
+            </div>
+
+            <!-- Submit & Reset Buttons -->
+            <div class="col-md-1 d-flex">
+                <button type="submit" class="btn btn-success w-100"><i class="fa-solid fa-filter"></i> Filter</button>
+            </div>
+            <div class="col-md-1 d-flex">
+                <a href="{% url 'gallery' %}" class="btn btn-outline-secondary w-100"><i class="fa-solid fa-rotate-left"></i> Reset</a>
+            </div>
         </div>
-        {% empty %}
-        <p class="text-muted">No paintings available in this category.</p>
-        {% endfor %}
-    </div>
-    {% endfor %}
+    </form>
+
+    <!-- Paintings Display -->
+    {% for category, paintings in categories.items %}
+    {% if paintings %}
+        <h2 class="mt-5"><i class="fa-solid fa-brush"></i> {{ category }} Paintings</h2>
+        <div class="row">
+            {% for painting in paintings %}
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm h-100 position-relative">
+                    <a href="{{ painting.photo.url }}" target="_blank" class="image-wrapper position-relative d-block">
+                        <img src="{{ painting.photo.url }}" class="card-img-top img-fluid" alt="{{ painting.name }}" style="max-height: 200px; object-fit: cover;">
+                        <div class="overlay position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center text-white fw-bold" style="background: rgba(0, 0, 0, 0.5); opacity: 0; transition: opacity 0.3s;">
+                            <span><i class="fa-solid fa-eye"></i> Click to Preview</span>
+                        </div>
+                    </a>
+                    <div class="card-body text-center">
+                        <h5 class="card-title"><i class="fa-solid fa-image"></i> {{ painting.name }}</h5>
+                        <p class="card-text"><i class="fa-solid fa-ruler-combined"></i> Canvas Size: {{ painting.canvas_size }}</p>
+                        {% if painting.faces %}
+                        <p class="card-text"><i class="fa-solid fa-user"></i> Faces: {{ painting.faces }}</p>
+                        {% endif %}
+                        <h6 class="text-success fw-bold"><i class="fa-solid fa-tag"></i> Price: Rs.{{ painting.price }}</h6>
+                        <a href="{% url 'add_to_cart' painting.id %}" class="btn btn-success"><i class="fa-solid fa-cart-plus"></i> Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endfor %}
 </div>
+
+<!-- Hover Effect for Overlay -->
+<style>
+    .image-wrapper:hover .overlay {
+        opacity: 1;
+    }
+</style>
+
 {% endblock %}
