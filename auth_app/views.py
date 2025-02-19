@@ -1,3 +1,4 @@
+from sqlite3 import IntegrityError
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
@@ -56,7 +57,10 @@ def signup_view(request):
         )
 
         # Create and update the user's profile
-        UserProfile.objects.create(user=user, contact=contact, address=address)
+        profile=UserProfile.objects.get(user=user)
+        profile.contact = contact
+        profile.address = address
+        profile.save()
 
         messages.success(request, 'Signup successful! Please log in.')
         return redirect('login')
